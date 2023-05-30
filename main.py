@@ -5,15 +5,13 @@ from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
-df = pd.read_csv("other_files/images_analyzed_productivity1.csv")
+df = pd.read_csv("./images_analyzed_productivity1.csv")
 
 df.drop(['Images_Analyzed'], axis=1, inplace=True)
 df.drop(['User'], axis=1, inplace=True)
-df.Productivity[df.Productivity == 'Good'] = 1
-df.Productivity[df.Productivity == 'Bad'] = 2
-print(df.head())
-Y = df["Productivity"].values
-Y=Y.astype('int')
+
+df['Productivity'] = df['Productivity'].map({'Good':1,'Bad':2})
+Y = df["Productivity"].values.astype('int')
 X = df.drop(labels = ["Productivity"], axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.4, random_state=20)
 
